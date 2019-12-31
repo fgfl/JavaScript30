@@ -62,13 +62,62 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: right;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(1, 0, 0, 1);
     }
 
   </style>
 
   <script>
+    /**
+    * Contruct a string that can be used to set transform: rotate()
+    * sec (@num) the second to set the second hand to
+    */
+    const calcSecRotation = (sec) => {
+      return `${((360 * sec / 60) + 90) % 360}deg`;
+    };
+    /**
+    * Contruct a string that can be used to set transform: rotate()
+    * min (@num) the minute to set the minute hand to
+    * sec (@num) the current second
+    */
+    const calcMinRotation = (min, sec) => {
+      let minRot = 360 * min / 60 + 90;
+      minRot += (360 / 60 ) * (sec / 60);// account for second moving minute hand a little
+      console.log(min)
+      return `${minRot % 360}deg`;
+    };
+    /**
+    * Contruct a string that can be used to set transform: rotate()
+    * hour (@num) the hour to set the hour hand to
+    * min (@num) the minute to set the minute hand to
+    * sec (@num) the current second
+    */
+    const calcHourRotation = (hour, min, sec) => {
+      let hourRot = 360 * hour / 12 + 90;
+      hourRot += (360 / 12) * ((min / 60) + (sec / 3600)); // account for minute and second moving hour hand a little
+      console.log(hour)
+      return `${hourRot % 360}deg`;
+    };
+   
+    const secHand = document.querySelector('.second-hand');      
+    const minHand = document.querySelector('.min-hand');      
+    const hourHand = document.querySelector('.hour-hand'); 
 
+    const setDate = function() {
+      const date = new Date();
+      const hour = date.getHours();
+      const min = date.getMinutes();
+      const sec = date.getSeconds();
 
+      secHand.style.transform = `rotate(${calcSecRotation(sec)})`;
+      minHand.style.transform = `rotate(${calcMinRotation(min, sec)})`;
+      hourHand.style.transform = `rotate(${calcHourRotation(hour, min, sec)})`;
+    };
+
+    setInterval(setDate, 1000);
   </script>
 </body>
 </html>
