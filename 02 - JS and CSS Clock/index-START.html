@@ -86,7 +86,6 @@
     const calcMinRotation = (min, sec) => {
       let minRot = 360 * min / 60 + 90;
       minRot += (360 / 60 ) * (sec / 60);// account for second moving minute hand a little
-      console.log(min)
       return `${minRot % 360}deg`;
     };
     /**
@@ -98,7 +97,6 @@
     const calcHourRotation = (hour, min, sec) => {
       let hourRot = 360 * hour / 12 + 90;
       hourRot += (360 / 12) * ((min / 60) + (sec / 3600)); // account for minute and second moving hour hand a little
-      console.log(hour)
       return `${hourRot % 360}deg`;
     };
    
